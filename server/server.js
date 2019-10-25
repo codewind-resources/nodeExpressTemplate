@@ -19,7 +19,6 @@ require('./routers/index')(app, server);
 
 const port = process.env.PORT || localConfig.port;
 server.listen(port, function(){
-  logger.info(`node listening on http://localhost:${port}/appmetrics-dash`);
   logger.info(`node listening on http://localhost:${port}`);
 });
 
