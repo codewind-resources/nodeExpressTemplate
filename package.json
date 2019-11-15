@@ -12,6 +12,7 @@
     "start": "node $npm_package_config_entrypoint"
   },
   "dependencies": {
+    "appmetrics-dash": "^5.2.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "log4js": "^4.0.2"
@@ -24,5 +25,10 @@
     "nyc": "^14.1.1",
     "prompt-confirm": "^1.2.0",
     "request": "^2.82.0"
+  },
+  "nodemonConfig": {
+    "env": {
+      "NODE_HEAPDUMP_OPTIONS": "nosignal"
+    }
   }
 }
