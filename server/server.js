@@ -3,16 +3,18 @@ require('appmetrics-dash').attach();
 const appName = require('./../package').name;
 const http = require('http');
 const express = require('express');
-const log4js = require('log4js');
+const logger = require('pino')({
+  name: appName,
+  level: process.env.LOG_LEVEL || 'info',
+});
 const localConfig = require('./config/local.json');
 const path = require('path');
 
-const logger = log4js.getLogger(appName);
-logger.level = process.env.LOG_LEVEL || 'info'
 const app = express();
 const server = http.createServer(app);
 
-app.use(log4js.connectLogger(logger, { level: logger.level }));
+app.use(require('express-pino-logger')({logger}))
+
 require('./routers/index')(app, server);
 
 // Add your code here
