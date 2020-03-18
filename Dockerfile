@@ -10,9 +10,8 @@ RUN apt-get update \
  && echo 'Finished installing dependencies'
 
 # Install npm production packages
-COPY package.json .npmrc* /app/
-RUN cd /app; npm install --production \
- && rm -rf .npmrc*
+COPY package.json /app/
+RUN cd /app; npm install --production
 
 COPY . /app
 
