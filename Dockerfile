@@ -8,7 +8,7 @@ COPY package.json .npmrc ./
 RUN npm install --production
 
 # Copy application source
-COPY . /
+COPY . ./
 RUN rm .npmrc
 
 
