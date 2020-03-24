@@ -1,7 +1,18 @@
-FROM node:8-stretch
+FROM node:8-stretch AS builder
 
 # Change working directory
-WORKDIR "/app"
+WORKDIR /app
+
+# Install npm production packages
+COPY package.json .npmrc ./
+RUN npm install --production
+
+# Copy application source
+COPY . /
+RUN rm .npmrc
+
+
+FROM node:8-stretch
 
 # Update packages and install dependency packages for services
 RUN apt-get update \
@@ -9,12 +20,11 @@ RUN apt-get update \
  && apt-get clean \
  && echo 'Finished installing dependencies'
 
-# Install npm production packages
-COPY package.json .npmrc /app/
-RUN cd /app; npm install --production \
- && rm .npmrc
+# Change working directory
+WORKDIR /app
 
-COPY . /app
+# Copy application from builder stage
+COPY --from=builder /app ./
 
 ENV NODE_ENV production
 ENV PORT 3000
